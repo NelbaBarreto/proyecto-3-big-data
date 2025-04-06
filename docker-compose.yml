@@ -1,0 +1,9 @@
+services:
+  gutenberg:
+    build: .
+    container_name: gutenberg_downloader
+    volumes:
+      - ./gutenberg:/app/gutenberg
+volumes:
+  data:
+  gutenberg:
