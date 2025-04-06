@@ -1,5 +1,6 @@
 # proyecto pgcorpus
 gutenberg/data
+gutenberg/metadata
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
