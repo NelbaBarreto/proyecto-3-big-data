@@ -1,6 +1,7 @@
 # proyecto pgcorpus
 gutenberg/data
 gutenberg/metadata
+notebooks/libros.parquet
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
