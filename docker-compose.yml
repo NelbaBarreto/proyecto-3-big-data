@@ -4,6 +4,39 @@ services:
     container_name: gutenberg_downloader
     volumes:
       - ./gutenberg:/app/gutenberg
-volumes:
-  data:
-  gutenberg:
+
+  spark-master:
+    image: bitnami/spark:3.5.5
+    command: bin/spark-class org.apache.spark.deploy.master.Master
+    ports:
+      - "8989:8080"  # Web UI for Spark Master
+      - "7077:7077"  # Spark Master port
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_HOST=spark-master
+
+  spark-worker:
+    image: bitnami/spark:3.5.5
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+
+  jupyter-notebook:
+    build:
+        context: .
+        dockerfile: Notebook.Dockerfile
+    ports:
+      - "8888:8888"  # Jupyter Notebook port
+    volumes:
+      - ./notebooks:/app/notebooks  # Mount local directory for notebooks
+    environment:
+      - JUPYTER_ENABLE_LAB=yes  # Enable JupyterLab interface
+      - SPARK_MASTER=spark://spark-master:7077
+    depends_on:
+      - spark-master
+      - spark-worker

@@ -1,2 +1,6 @@
 pyspark
 azure-storage-blob
+pandas
+azure-mgmt-resource 
+azure-mgmt-datalake-store
+azure-datalake-store

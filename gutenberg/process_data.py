@@ -123,5 +123,6 @@ if __name__ == '__main__':
             if not args.quiet:
                 print("# WARNING: metadata for '%s' not found" % filename)
         except Exception as e:
+            print(e)
             if not args.quiet:
                 print("# WARNING: cannot process '%s' (unkown error)" % filename)
